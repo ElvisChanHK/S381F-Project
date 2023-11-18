@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Change Password</title>
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendors styles-->
+    <link rel="stylesheet" href="../node_modules/simplebar/dist/simplebar.css">
+    <link rel="stylesheet" href="../css/vendors/simplebar.css">
+    <!-- Main styles for this application-->
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/examples.css" rel="stylesheet">
+    <script src="../js/config.js"></script>
+    <script src="../js/color-modes.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+		$(document).ready(() => {
+
+$("#form").submit((event) => {
+  event.preventDefault();
+
+  $.ajax({
+    type: 'POST',
+    url: '/profile/changepassword',
+    data: $('#form').serialize(),
+    dataType: "json",
+    success: (data, textStatus) => {
+      console.log(data);
+                  $('#form')[0].reset();
+      console.log('a');
+                  document.getElementById("check").innerHTML = data.responseJSON.msg;
+                  setTimeout(() => {
+                      document.getElementById("check").innerHTML = "";
+                  }, 3000);
+    },
+    error: (data, textStatus) => {
+                  //console.log(data);
+                  $('#form')[0].reset();
+                  if (data.status == 401) {
+                      document.getElementById("check").innerHTML = data.responseJSON.msg;
+                      setTimeout(() => {
+                          document.getElementById("check").innerHTML = "";
+                      }, 3000);
+                  }
+    }
+  })
+});
+
+});
+    </script>
+  </head>
+  <body>
+    <div class="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <div class="card mb-4 mx-4">
+              <div class="card-body p-4">
+                <h3>Change Password</h3>
+                <form id="form" method="post">
+                  <div class="input-group mb-3"><span class="input-group-text">
+                      <svg class="icon">
+                        <use xlink:href="../node_modules/@coreui/icons/sprites/free.svg#cil-user"></use>
+                      </svg></span>
+                    <input class="form-control" type="text" name="username" value="<%= username %>" readonly>
+                  </div>
+                  <div class="input-group mb-3"><span class="input-group-text">
+                      <svg class="icon">
+                        <use xlink:href="../node_modules/@coreui/icons/sprites/free.svg#cil-lock-locked"></use>
+                      </svg></span>
+                    <input class="form-control" type="password" name="old_pw" placeholder="Old Password">
+                  </div>
+                  <div class="input-group mb-3"><span class="input-group-text">
+                    <svg class="icon">
+                      <use xlink:href="../node_modules/@coreui/icons/sprites/free.svg#cil-lock-locked"></use>
+                    </svg></span>
+                  <input class="form-control" type="password" name="new_pw" placeholder="New Password">
+                </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <input type="submit" value="Submit" class="btn btn-primary px-4">
+                    </div>
+                    <div class="col-3">
+                      <input type="button" onclick="window.history.back();" class="btn btn-secondary px-4" value="Back" />
+                    </div>
+                  </div>
+                </form>
+                <div class="mssg bg-danger">
+                  <span id="check"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="../node_modules/@coreui/coreui/dist/js/coreui.bundle.min.js"></script>
+    <script src="../node_modules/simplebar/dist/simplebar.min.js"></script>
+    <script>
+      const header = document.querySelector('header.header');
+      
+      document.addEventListener('scroll', () => {
+        if (header) {
+          header.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
+        }
+      });
+      
+    </script>
+  </body>
+</html>
