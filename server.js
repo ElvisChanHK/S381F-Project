@@ -257,12 +257,12 @@ app.use((err, req, res, next) => {
   res.send(err.message);
 });
 
-//test
+//Initialize User Data
 //deleteUser('admin');
 //deleteUser('demo');
-//insert default user
+//Insert default user
 insertUser('admin', 'admin', 'admin');
-//insertUser('demo', 'demo', 'user');
+insertUser('demo', 'demo', 'user');
 
 //Start server
 app.listen(3999, () => {
